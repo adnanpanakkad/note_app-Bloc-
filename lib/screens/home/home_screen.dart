@@ -27,7 +27,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes"),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.grey,
       ),
       body: BlocConsumer<HomeBloc, HomeState>(
         buildWhen: (previous, current) => current is! HomeActionState,
@@ -40,9 +40,9 @@ class _ScreenHomeState extends State<ScreenHome> {
                   builder: (context) => const ScreenAddForm(),
                 ));
           } else if (state is ShowPopupMessageState) {
-            alertMessage(context,id);
+            alertMessage(context, id);
           } else if (state is UpdateNavigationState) {
-            Navigator.push( 
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
@@ -79,6 +79,4 @@ class _ScreenHomeState extends State<ScreenHome> {
       ),
     );
   }
-
-  
 }
