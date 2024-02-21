@@ -22,11 +22,14 @@ class MyApp extends StatelessWidget {
           create: (context) => AddBloc(),
         ),
         BlocProvider(
-          create: (context) => EditBloc(),
+          create: (context) => EditBloc(), 
         ),
       ],
       child: MaterialApp(
-        theme: ThemeData.dark(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          useMaterial3: true,
+        ),
         debugShowCheckedModeBanner: false,
         home: const ScreenHome(),
       ),

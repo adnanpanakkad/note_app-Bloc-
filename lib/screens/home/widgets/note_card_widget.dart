@@ -22,7 +22,7 @@ class NoteCardWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-              color: Colors.grey,
+              color: Theme.of(context).colorScheme.inversePrimary,
               width: 2),
           borderRadius: const BorderRadius.all(
             Radius.circular(8),
@@ -62,5 +62,3 @@ class NoteCardWidget extends StatelessWidget {
     );
   }
 }
-
-

@@ -15,7 +15,7 @@ class ScreenAddForm extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("New Note"),
-          backgroundColor: Colors.grey,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: BlocConsumer<AddBloc, AddState>(
         buildWhen: (previous, current) => current is! AddActionState,

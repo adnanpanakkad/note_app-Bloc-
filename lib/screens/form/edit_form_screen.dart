@@ -37,7 +37,7 @@ class _ScreenEditState extends State<ScreenEdit> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Edit Note"),
-          backgroundColor: Colors.grey,
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         body: BlocConsumer<EditBloc, EditState>(
           listener: (context, state) {
