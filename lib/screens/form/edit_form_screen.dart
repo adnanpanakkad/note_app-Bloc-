@@ -21,8 +21,8 @@ class _ScreenEditState extends State<ScreenEdit> {
   void initState() {
     super.initState();
     final note = widget.map;
-    titleController.text = note['title'];
-    descriptionController.text = note['description'];
+    titleController.text = note['title'] ?? ''; // Check for null and provide a default value
+    descriptionController.text = note['description'] ?? ''; // Check for null and provide a default value
   }
 
   @override
@@ -35,91 +35,95 @@ class _ScreenEditState extends State<ScreenEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Edit Note"),
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        ),
-        body: BlocConsumer<EditBloc, EditState>(
-          listener: (context, state) {
-            if (state is EditSuccessState) {
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  behavior: SnackBarBehavior.floating,
-                  margin: EdgeInsets.all(10),
-                  duration: Duration(seconds: 1),
-                  backgroundColor: Colors.green,
-                  content: Text(
-                    "Data updated Successfuly!!",
-                    style: TextStyle(color: Colors.white),
-                  )));
-              context.read<HomeBloc>().add(FetchSuccessEvent());
-            } else if (state is EditFailedState) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  behavior: SnackBarBehavior.floating,
-                  margin: EdgeInsets.all(10),
-                  duration: Duration(seconds: 1),
-                  backgroundColor: Colors.red,
-                  content: Text(
-                    "Data Not Updated !!",
-                    style: TextStyle(color: Colors.white),
-                  )));
-            }
-          },
-          builder: (context, state) {
-            return Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ListView(
-                  children: [
-                    TextFormField(
-                      controller: titleController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Title',
-                          hintStyle: TextStyle(fontSize: 20)),
-                      validator: (value) => titleController.text.isEmpty
-                          ? 'Please enter a title'
-                          : null,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: descriptionController,
-                      maxLines: 10,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Description',
-                          hintStyle: TextStyle(fontSize: 20)),
-                      validator: (value) => descriptionController.text.isEmpty
-                          ? 'Please enter a description'
-                          : null,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          update(context, widget.id);
-                        }
-                      },
-                      icon: const Icon(Icons.save),
-                      label: const Text('Update'),
-                      style: const ButtonStyle(
-                          elevation: MaterialStatePropertyAll(5),
-                          shape: MaterialStatePropertyAll(
-                              ContinuousRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))))),
-                    ),
-                  ],
-                ),
+      appBar: AppBar(
+        title: const Text("Edit Note"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: BlocConsumer<EditBloc, EditState>(
+        listener: (context, state) {
+          if (state is EditSuccessState) {
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
+              duration: Duration(seconds: 1),
+              backgroundColor: Colors.green,
+              content: Text(
+                "Data updated Successfully!!",
+                style: TextStyle(color: Colors.white),
               ),
-            );
-          },
-        ));
+            ));
+            context.read<HomeBloc>().add(FetchSuccessEvent());
+          } else if (state is EditFailedState) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(10),
+              duration: Duration(seconds: 1),
+              backgroundColor: Colors.red,
+              content: Text(
+                "Data Not Updated !!",
+                style: TextStyle(color: Colors.white),
+              ),
+            ));
+          }
+        },
+        builder: (context, state) {
+          return Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ListView(
+                children: [
+                  TextFormField(
+                    controller: titleController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Title',
+                        hintStyle: TextStyle(fontSize: 20)),
+                    validator: (value) =>
+                        titleController.text.isEmpty ? 'Please enter a title' : null,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: descriptionController,
+                    maxLines: 10,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Description',
+                        hintStyle: TextStyle(fontSize: 20)),
+                    validator: (value) => descriptionController.text.isEmpty
+                        ? 'Please enter a description'
+                        : null,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        update(context, widget.id);
+                      }
+                    },
+                    icon: const Icon(Icons.save),
+                    label: const Text('Update'),
+                    style: const ButtonStyle(
+                      elevation: MaterialStatePropertyAll(5),
+                      shape: MaterialStatePropertyAll(
+                        ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   void update(BuildContext context, String id) {
