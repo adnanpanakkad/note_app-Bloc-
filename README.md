@@ -1,7 +1,6 @@
 # notebloc
 
-A new Flutter project.
-
+THis project conaining the usage of Bloc statemanagment and REST API integration
 ## Getting Started
 
 This project is a starting point for a Flutter application.
